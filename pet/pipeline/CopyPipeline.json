@@ -36,29 +36,11 @@
 							"skipLineCount": 0
 						}
 					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".csv"
-						}
-					},
-					"enableStaging": false,
-					"validateDataConsistency": false
+					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_7on",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "DestinationDataset_7on",
+						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					}
 				]
