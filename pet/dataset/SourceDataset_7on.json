@@ -13,7 +13,7 @@
 				"fileName": "source data.csv",
 				"fileSystem": "newcontainer"
 			},
-			"columnDelimiter": ";",
+			"columnDelimiter": "\t",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
