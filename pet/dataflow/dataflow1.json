@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Final",
+						"referenceName": "Source",
 						"type": "DatasetReference"
 					},
 					"name": "source"
@@ -98,9 +98,8 @@
 				"          SaleCondition as string,",
 				"          SalePrice as string",
 				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: true,",
-				"     inferDriftedColumnTypes: true,",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source"
 			]
 		}
