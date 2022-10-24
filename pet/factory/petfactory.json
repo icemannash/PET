@@ -1,0 +1,9 @@
+{
+	"name": "petfactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "c64e152c-97a7-450e-bf4f-bfe53104a27f",
+		"tenantId": "9bad8998-901f-48fb-933d-62db188dddbb"
+	}
+}
