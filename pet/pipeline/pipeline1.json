@@ -44,7 +44,7 @@
 							{
 								"source": {
 									"name": "Id",
-									"type": "String",
+									"type": "Int64",
 									"physicalType": "String"
 								},
 								"sink": {
