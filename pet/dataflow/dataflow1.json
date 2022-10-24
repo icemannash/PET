@@ -15,7 +15,8 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "select1"
+					"name": "Renaming",
+					"description": "Renaming source"
 				}
 			],
 			"scriptLines": [
@@ -190,7 +191,7 @@
 				"          {Sales Price} = SalePrice",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> Renaming"
 			]
 		}
 	}
