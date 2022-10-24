@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Copy data",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -13,7 +13,16 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "newcontainer//source data.csv"
+					},
+					{
+						"name": "Destination",
+						"value": "newcontainer//final data.csv"
+					}
+				],
 				"typeProperties": {
 					"source": {
 						"type": "DelimitedTextSource",
@@ -50,7 +59,8 @@
 							"linkedServiceName": {
 								"referenceName": "AzureDataLakeStorage2",
 								"type": "LinkedServiceReference"
-							}
+							},
+							"path": "newcontainer"
 						}
 					},
 					"translator": {
@@ -75,8 +85,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "MSSubClass",
-									"type": "String",
+									"name": "The building class",
 									"physicalType": "String"
 								}
 							},
@@ -87,8 +96,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "MSZoning",
-									"type": "String",
+									"name": "The general zoning classification",
 									"physicalType": "String"
 								}
 							},
@@ -99,8 +107,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "LotFrontage",
-									"type": "String",
+									"name": "Linear feet of street connected to property",
 									"physicalType": "String"
 								}
 							},
@@ -111,8 +118,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "LotArea",
-									"type": "String",
+									"name": "Lot size in square feet",
 									"physicalType": "String"
 								}
 							},
@@ -123,8 +129,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Street",
-									"type": "String",
+									"name": "Type of road access",
 									"physicalType": "String"
 								}
 							},
@@ -135,8 +140,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Alley",
-									"type": "String",
+									"name": "Type of alley access",
 									"physicalType": "String"
 								}
 							},
@@ -147,8 +151,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "LotShape",
-									"type": "String",
+									"name": "General shape of property",
 									"physicalType": "String"
 								}
 							},
@@ -159,8 +162,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "LandContour",
-									"type": "String",
+									"name": "Flatness of the property",
 									"physicalType": "String"
 								}
 							},
@@ -171,8 +173,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Utilities",
-									"type": "String",
+									"name": "Type of utilities available",
 									"physicalType": "String"
 								}
 							},
@@ -183,8 +184,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "LotConfig",
-									"type": "String",
+									"name": "Lot configuration",
 									"physicalType": "String"
 								}
 							},
@@ -195,8 +195,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "LandSlope",
-									"type": "String",
+									"name": "Slope of property",
 									"physicalType": "String"
 								}
 							},
@@ -207,8 +206,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Neighborhood",
-									"type": "String",
+									"name": "Physical locations within Ames city limits",
 									"physicalType": "String"
 								}
 							},
@@ -219,8 +217,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Condition1",
-									"type": "String",
+									"name": "Proximity to main road or railroad",
 									"physicalType": "String"
 								}
 							},
@@ -231,8 +228,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Condition2",
-									"type": "String",
+									"name": "Proximity to main road or railroad (if a second is present)",
 									"physicalType": "String"
 								}
 							},
@@ -243,8 +239,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BldgType",
-									"type": "String",
+									"name": "Type of dwelling",
 									"physicalType": "String"
 								}
 							},
@@ -255,8 +250,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "HouseStyle",
-									"type": "String",
+									"name": "Style of dwelling",
 									"physicalType": "String"
 								}
 							},
@@ -267,8 +261,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "OverallQual",
-									"type": "String",
+									"name": "Overall material and finish quality",
 									"physicalType": "String"
 								}
 							},
@@ -279,8 +272,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "OverallCond",
-									"type": "String",
+									"name": "Overall condition rating",
 									"physicalType": "String"
 								}
 							},
@@ -291,8 +283,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "YearBuilt",
-									"type": "String",
+									"name": "Original construction date",
 									"physicalType": "String"
 								}
 							},
@@ -303,8 +294,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "YearRemodAdd",
-									"type": "String",
+									"name": "Remodel date",
 									"physicalType": "String"
 								}
 							},
@@ -315,8 +305,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "RoofStyle",
-									"type": "String",
+									"name": "Type of roof",
 									"physicalType": "String"
 								}
 							},
@@ -327,8 +316,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "RoofMatl",
-									"type": "String",
+									"name": "Roof material",
 									"physicalType": "String"
 								}
 							},
@@ -339,8 +327,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Exterior1st",
-									"type": "String",
+									"name": "Exterior covering on house",
 									"physicalType": "String"
 								}
 							},
@@ -351,8 +338,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Exterior2nd",
-									"type": "String",
+									"name": "Exterior covering on house (if more than one material)",
 									"physicalType": "String"
 								}
 							},
@@ -363,8 +349,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "MasVnrType",
-									"type": "String",
+									"name": "Masonry veneer type",
 									"physicalType": "String"
 								}
 							},
@@ -375,8 +360,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "MasVnrArea",
-									"type": "String",
+									"name": "Masonry veneer area in square feet",
 									"physicalType": "String"
 								}
 							},
@@ -387,8 +371,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "ExterQual",
-									"type": "String",
+									"name": "Exterior material quality",
 									"physicalType": "String"
 								}
 							},
@@ -399,8 +382,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "ExterCond",
-									"type": "String",
+									"name": "Present condition of the material on the exterior",
 									"physicalType": "String"
 								}
 							},
@@ -411,8 +393,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Foundation",
-									"type": "String",
+									"name": "Type of foundation",
 									"physicalType": "String"
 								}
 							},
@@ -423,8 +404,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtQual",
-									"type": "String",
+									"name": "Height of the basement",
 									"physicalType": "String"
 								}
 							},
@@ -435,8 +415,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtCond",
-									"type": "String",
+									"name": "General condition of the basement",
 									"physicalType": "String"
 								}
 							},
@@ -447,8 +426,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtExposure",
-									"type": "String",
+									"name": "Walkout or garden level basement walls",
 									"physicalType": "String"
 								}
 							},
@@ -459,8 +437,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtFinType1",
-									"type": "String",
+									"name": "Quality of basement finished area",
 									"physicalType": "String"
 								}
 							},
@@ -471,8 +448,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtFinSF1",
-									"type": "String",
+									"name": "Type 1 finished square feet",
 									"physicalType": "String"
 								}
 							},
@@ -483,8 +459,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtFinType2",
-									"type": "String",
+									"name": "Quality of second finished area (if present)",
 									"physicalType": "String"
 								}
 							},
@@ -495,8 +470,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtFinSF2",
-									"type": "String",
+									"name": "Type 2 finished square feet",
 									"physicalType": "String"
 								}
 							},
@@ -507,8 +481,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtUnfSF",
-									"type": "String",
+									"name": "Unfinished square feet of basement area",
 									"physicalType": "String"
 								}
 							},
@@ -519,8 +492,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "TotalBsmtSF",
-									"type": "String",
+									"name": "Total square feet of basement area",
 									"physicalType": "String"
 								}
 							},
@@ -531,8 +503,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Heating",
-									"type": "String",
+									"name": "Type of heating",
 									"physicalType": "String"
 								}
 							},
@@ -543,8 +514,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "HeatingQC",
-									"type": "String",
+									"name": "Heating quality and condition",
 									"physicalType": "String"
 								}
 							},
@@ -555,8 +525,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "CentralAir",
-									"type": "String",
+									"name": "Central air conditioning",
 									"physicalType": "String"
 								}
 							},
@@ -567,8 +536,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Electrical",
-									"type": "String",
+									"name": "Electrical system",
 									"physicalType": "String"
 								}
 							},
@@ -579,8 +547,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "1stFlrSF",
-									"type": "String",
+									"name": "First Floor square feet",
 									"physicalType": "String"
 								}
 							},
@@ -591,8 +558,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "2ndFlrSF",
-									"type": "String",
+									"name": "Second floor square feet",
 									"physicalType": "String"
 								}
 							},
@@ -603,8 +569,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "LowQualFinSF",
-									"type": "String",
+									"name": "Low quality finished square feet (all floors)",
 									"physicalType": "String"
 								}
 							},
@@ -615,8 +580,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "GrLivArea",
-									"type": "String",
+									"name": "Above grade (ground) living area square feet",
 									"physicalType": "String"
 								}
 							},
@@ -627,8 +591,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtFullBath",
-									"type": "String",
+									"name": "Basement full bathrooms",
 									"physicalType": "String"
 								}
 							},
@@ -639,8 +602,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BsmtHalfBath",
-									"type": "String",
+									"name": "Basement half bathrooms",
 									"physicalType": "String"
 								}
 							},
@@ -651,8 +613,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "FullBath",
-									"type": "String",
+									"name": "Full bathrooms above grade",
 									"physicalType": "String"
 								}
 							},
@@ -663,8 +624,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "HalfBath",
-									"type": "String",
+									"name": "Half baths above grade",
 									"physicalType": "String"
 								}
 							},
@@ -675,8 +635,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "BedroomAbvGr",
-									"type": "String",
+									"name": "Number of bedrooms above basement level",
 									"physicalType": "String"
 								}
 							},
@@ -687,8 +646,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "KitchenAbvGr",
-									"type": "String",
+									"name": "KitchenAboveGr",
 									"physicalType": "String"
 								}
 							},
@@ -699,8 +657,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "KitchenQual",
-									"type": "String",
+									"name": "Kitchen quality",
 									"physicalType": "String"
 								}
 							},
@@ -711,8 +668,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "TotRmsAbvGrd",
-									"type": "String",
+									"name": "Total rooms above grade (does not include bathrooms)",
 									"physicalType": "String"
 								}
 							},
@@ -723,8 +679,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Functional",
-									"type": "String",
+									"name": "Home functionality rating",
 									"physicalType": "String"
 								}
 							},
@@ -735,8 +690,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Fireplaces",
-									"type": "String",
+									"name": "Number of fireplaces",
 									"physicalType": "String"
 								}
 							},
@@ -747,8 +701,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "FireplaceQu",
-									"type": "String",
+									"name": "Fireplace quality",
 									"physicalType": "String"
 								}
 							},
@@ -759,8 +712,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "GarageType",
-									"type": "String",
+									"name": "Garage location",
 									"physicalType": "String"
 								}
 							},
@@ -771,8 +723,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "GarageYrBlt",
-									"type": "String",
+									"name": "Year garage was built",
 									"physicalType": "String"
 								}
 							},
@@ -783,8 +734,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "GarageFinish",
-									"type": "String",
+									"name": "Interior finish of the garage",
 									"physicalType": "String"
 								}
 							},
@@ -795,8 +745,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "GarageCars",
-									"type": "String",
+									"name": "Size of garage in car capacity",
 									"physicalType": "String"
 								}
 							},
@@ -807,8 +756,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "GarageArea",
-									"type": "String",
+									"name": "Size of garage in square feet",
 									"physicalType": "String"
 								}
 							},
@@ -819,8 +767,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "GarageQual",
-									"type": "String",
+									"name": "Garage quality",
 									"physicalType": "String"
 								}
 							},
@@ -831,8 +778,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "GarageCond",
-									"type": "String",
+									"name": "Garage condition",
 									"physicalType": "String"
 								}
 							},
@@ -843,8 +789,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "PavedDrive",
-									"type": "String",
+									"name": "Paved driveway",
 									"physicalType": "String"
 								}
 							},
@@ -855,8 +800,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "WoodDeckSF",
-									"type": "String",
+									"name": "Wood deck area in square feet",
 									"physicalType": "String"
 								}
 							},
@@ -867,8 +811,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "OpenPorchSF",
-									"type": "String",
+									"name": "Open porch area in square feet",
 									"physicalType": "String"
 								}
 							},
@@ -879,8 +822,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "EnclosedPorch",
-									"type": "String",
+									"name": "Enclosed porch area in square feet",
 									"physicalType": "String"
 								}
 							},
@@ -891,8 +833,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "3SsnPorch",
-									"type": "String",
+									"name": "Three season porch area in square feet",
 									"physicalType": "String"
 								}
 							},
@@ -903,8 +844,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "ScreenPorch",
-									"type": "String",
+									"name": "Screen porch area in square feet",
 									"physicalType": "String"
 								}
 							},
@@ -915,8 +855,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "PoolArea",
-									"type": "String",
+									"name": "Pool area in square feet",
 									"physicalType": "String"
 								}
 							},
@@ -927,8 +866,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "PoolQC",
-									"type": "String",
+									"name": "Pool quality",
 									"physicalType": "String"
 								}
 							},
@@ -939,8 +877,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "Fence",
-									"type": "String",
+									"name": "Fence quality",
 									"physicalType": "String"
 								}
 							},
@@ -951,8 +888,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "MiscFeature",
-									"type": "String",
+									"name": "Miscellaneous feature not covered in other categories",
 									"physicalType": "String"
 								}
 							},
@@ -963,8 +899,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "MiscVal",
-									"type": "String",
+									"name": " $Value of miscellaneous feature",
 									"physicalType": "String"
 								}
 							},
@@ -975,8 +910,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "MoSold",
-									"type": "String",
+									"name": "Month Sold",
 									"physicalType": "String"
 								}
 							},
@@ -987,8 +921,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "YrSold",
-									"type": "String",
+									"name": "Year Sold",
 									"physicalType": "String"
 								}
 							},
@@ -999,8 +932,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "SaleType",
-									"type": "String",
+									"name": "Type of sale",
 									"physicalType": "String"
 								}
 							},
@@ -1011,8 +943,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "SaleCondition",
-									"type": "String",
+									"name": "Condition of sale",
 									"physicalType": "String"
 								}
 							},
@@ -1023,8 +954,7 @@
 									"physicalType": "String"
 								},
 								"sink": {
-									"name": "SalePrice",
-									"type": "String",
+									"name": "Sales Price",
 									"physicalType": "String"
 								}
 							}
