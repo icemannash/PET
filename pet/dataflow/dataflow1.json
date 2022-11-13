@@ -17,6 +17,9 @@
 				{
 					"name": "Renaming",
 					"description": "Renaming source"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -191,7 +194,20 @@
 				"          {Sales Price} = SalePrice",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> Renaming"
+				"     skipDuplicateMapOutputs: true) ~> Renaming",
+				"Renaming select(mapColumn(",
+				"          {The building class},",
+				"          {The general zoning classification},",
+				"          {Type of dwelling},",
+				"          {Style of dwelling},",
+				"          {Overall material and finish quality},",
+				"          {Overall condition rating},",
+				"          {Overall condition rating},",
+				"          {Original construction date},",
+				"          {Remodel date}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}
