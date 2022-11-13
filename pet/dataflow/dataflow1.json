@@ -77,6 +77,9 @@
 				},
 				{
 					"name": "Sales"
+				},
+				{
+					"name": "surrogateKey1"
 				}
 			],
 			"scriptLines": [
@@ -693,7 +696,8 @@
 				"          HouseStyle,",
 				"          OverallQual,",
 				"          YearBuilt,",
-				"          YearRemodAdd",
+				"          YearRemodAdd,",
+				"          Id",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> BuildingTable",
@@ -705,12 +709,14 @@
 				"          LotConfig,",
 				"          LandSlope,",
 				"          Condition1,",
-				"          Condition2",
+				"          Condition2,",
+				"          Id",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> LandTable",
 				"source3 select(mapColumn(",
 				"          Street,",
+				"          Id,",
 				"          Alley",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
@@ -735,7 +741,8 @@
 				"          TotRmsAbvGrd,",
 				"          Functional,",
 				"          Fireplaces,",
-				"          FireplaceQu",
+				"          FireplaceQu,",
+				"          Id",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Interior",
@@ -781,7 +788,10 @@
 				"          SalePrice",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> Sales"
+				"     skipDuplicateMapOutputs: true) ~> Sales",
+				"BuildingTable keyGenerate(output({undefined} as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1"
 			]
 		}
 	}
