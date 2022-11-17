@@ -113,6 +113,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "union1"
 				}
 			],
 			"scriptLines": [
@@ -749,8 +752,7 @@
 				"     skipDuplicateMapOutputs: true) ~> LandTable",
 				"source3 select(mapColumn(",
 				"          Id,",
-				"          Street,",
-				"          Alley",
+				"          Street",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Street",
@@ -825,7 +827,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Sales",
-				"BuildingTable filter( greaterOrEqual(YearBuilt, '1900')) ~> Yearbuilthigher1900",
+				"BuildingTable filter(greaterOrEqual(YearBuilt, '1900')) ~> Yearbuilthigher1900",
 				"Exterior select(mapColumn(",
 				"          Id,",
 				"          RoofStyle,",
@@ -870,7 +872,7 @@
 				"     ),",
 				"     errors: true) ~> cast2",
 				"LandTable cast(output(",
-				"          Id as integer,",
+				"          Id as string,",
 				"          LotFrontage as integer,",
 				"          LandContour as string,",
 				"          LotShape as string,",
@@ -883,8 +885,7 @@
 				"     errors: true) ~> cast3",
 				"Street cast(output(",
 				"          Id as integer,",
-				"          Street as string,",
-				"          Alley as string",
+				"          Street as string",
 				"     ),",
 				"     errors: true) ~> cast4",
 				"Interior cast(output(",
@@ -948,7 +949,8 @@
 				"     equals(Street, 'Pave'),",
 				"     equals(Street, 'Grvl'),",
 				"     disjoint: false) ~> split@(TyperoadaccesGrvl, TyperoadaccesPave, TyperoadaccesGrvl1)",
-				"cast2 derive(buildingtype = iif(YearBuilt>'1970','new','old')) ~> derivedColumn1"
+				"cast2 derive(buildingtype = iif(YearBuilt>'1970','new','old')) ~> derivedColumn1",
+				"Exterior, Yearbuilthigher1900 union(byName: true)~> union1"
 			]
 		}
 	}
