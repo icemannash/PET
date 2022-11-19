@@ -52,6 +52,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "source7"
+				},
+				{
+					"linkedService": {
+						"referenceName": "SqlServer1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "source8"
 				}
 			],
 			"sinks": [],
@@ -725,6 +732,13 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source7",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: '',",
+				"     tableName: '',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source8",
 				"source1 select(mapColumn(",
 				"          Id,",
 				"          MSSubClass,",
