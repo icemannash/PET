@@ -47,21 +47,29 @@
 					"name": "source6"
 				},
 				{
-					"dataset": {
-						"referenceName": "DelimitedText1",
-						"type": "DatasetReference"
+					"linkedService": {
+						"referenceName": "AzureSqlDatabase1",
+						"type": "LinkedServiceReference"
 					},
-					"name": "source7"
+					"name": "source8"
 				},
 				{
 					"linkedService": {
 						"referenceName": "AzureSqlDatabase1",
 						"type": "LinkedServiceReference"
 					},
-					"name": "source8"
+					"name": "source9"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "AzureSqlDatabase1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "BuildingTable",
@@ -92,9 +100,6 @@
 					"name": "RemovePoolQualityColumn"
 				},
 				{
-					"name": "Joinyear"
-				},
-				{
 					"name": "cast1"
 				},
 				{
@@ -123,6 +128,9 @@
 				},
 				{
 					"name": "union1"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -690,8 +698,8 @@
 				"          HeatingQC as string,",
 				"          CentralAir as string,",
 				"          Electrical as string,",
-				"          {1stFlrSF} as string,",
-				"          {2ndFlrSF} as string,",
+				"          FirstFlrSF as string,",
+				"          SecondFlrSF as string,",
 				"          LowQualFinSF as string,",
 				"          GrLivArea as string,",
 				"          BsmtFullBath as string,",
@@ -716,7 +724,7 @@
 				"          WoodDeckSF as string,",
 				"          OpenPorchSF as string,",
 				"          EnclosedPorch as string,",
-				"          {3SsnPorch} as string,",
+				"          ThirdsnPorch as string,",
 				"          ScreenPorch as string,",
 				"          PoolArea as string,",
 				"          PoolQC as string,",
@@ -731,14 +739,18 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source7",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'pettable',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source8",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
-				"     tableName: 'mytable',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> source8",
+				"     tableName: 'pettable',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source9",
 				"source1 select(mapColumn(",
 				"          Id,",
 				"          MSSubClass,",
@@ -831,11 +843,12 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Exterior",
-				"source7 select(mapColumn(",
+				"source8 select(mapColumn(",
 				"          Id,",
-				"          SaleType = MiscVal,",
+				"          MiscVal,",
 				"          MoSold,",
-				"          YrSold = SaleType,",
+				"          YrSold,",
+				"          SaleType,",
 				"          SaleCondition,",
 				"          SalePrice",
 				"     ),",
@@ -865,13 +878,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> RemovePoolQualityColumn",
-				"cast1, Yearbuilthigher1900 join(Sales@Id == BuildingTable@Id,",
-				"     joinType:'left',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> Joinyear",
 				"Sales cast(output(",
-				"          SalePrice as integer",
+				"          Id as string",
 				"     ),",
 				"     errors: true) ~> cast1",
 				"Yearbuilthigher1900 cast(output(",
@@ -964,7 +972,30 @@
 				"     equals(Street, 'Grvl'),",
 				"     disjoint: false) ~> split@(TyperoadaccesGrvl, TyperoadaccesPave, TyperoadaccesGrvl1)",
 				"cast2 derive(buildingtype = iif(YearBuilt>'1970','new','old')) ~> derivedColumn1",
-				"Exterior, Yearbuilthigher1900 union(byName: true)~> union1"
+				"Exterior, Yearbuilthigher1900 union(byName: true)~> union1",
+				"source9 select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"cast1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          MiscVal as string,",
+				"          MoSold as string,",
+				"          YrSold as string,",
+				"          SaleType as string,",
+				"          SaleCondition as string,",
+				"          SalePrice as string",
+				"     ),",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'sales',",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     deletable: false,",
+				"     upsertable: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
