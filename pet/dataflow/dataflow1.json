@@ -55,7 +55,7 @@
 				},
 				{
 					"linkedService": {
-						"referenceName": "SqlServer1",
+						"referenceName": "AzureSqlDatabase1",
 						"type": "LinkedServiceReference"
 					},
 					"name": "source8"
@@ -736,8 +736,8 @@
 				"     validateSchema: false,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
-				"     schemaName: '',",
-				"     tableName: '',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'mytable',",
 				"     isolationLevel: 'READ_UNCOMMITTED') ~> source8",
 				"source1 select(mapColumn(",
 				"          Id,",
