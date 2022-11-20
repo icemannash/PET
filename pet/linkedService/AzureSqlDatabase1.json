@@ -5,8 +5,8 @@
 		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
-			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=petserver26.database.windows.net;initial catalog=petdestination;user id=petlogin",
-			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEVGMTY4MDc2LUI4MzctNDRDOC05MjFCLUM4QkM1NkQ4OEU5RV85OWJiZjMzYi05MThkLTQ0OTYtYWVjMi00MzQ2ZjgyMzQwNmUiDQp9"
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=petserver26.database.windows.net;initial catalog=petdatabase;user id=petlogin",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEVGMTY4MDc2LUI4MzctNDRDOC05MjFCLUM4QkM1NkQ4OEU5RV9jMGExYWY1Yi00Nzg0LTQyNWYtOGY4Mi00YTY2NDA2ODNjODEiDQp9"
 		}
 	}
 }
