@@ -1,0 +1,49 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "GarageType",
+				"type": "varchar"
+			},
+			{
+				"name": "GarageYrBlt",
+				"type": "varchar"
+			},
+			{
+				"name": "GarageFinish",
+				"type": "varchar"
+			},
+			{
+				"name": "GarageCars",
+				"type": "varchar"
+			},
+			{
+				"name": "GarageArea",
+				"type": "varchar"
+			},
+			{
+				"name": "GarageQual",
+				"type": "varchar"
+			},
+			{
+				"name": "GarageCond",
+				"type": "varchar"
+			},
+			{
+				"name": "PavedDrive",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Garage"
+		}
+	}
+}

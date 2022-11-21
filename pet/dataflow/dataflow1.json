@@ -9,56 +9,56 @@
 						"referenceName": "DelimitedText2",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "Original1"
 				},
 				{
 					"dataset": {
 						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "Original2"
 				},
 				{
 					"dataset": {
 						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					},
-					"name": "source3"
+					"name": "Original3"
 				},
 				{
 					"dataset": {
 						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					},
-					"name": "source4"
+					"name": "Original4"
 				},
 				{
 					"dataset": {
 						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					},
-					"name": "source5"
+					"name": "Original5"
 				},
 				{
 					"dataset": {
 						"referenceName": "DelimitedText1",
 						"type": "DatasetReference"
 					},
-					"name": "source6"
+					"name": "Original6"
 				},
 				{
 					"linkedService": {
 						"referenceName": "AzureSqlDatabase1",
 						"type": "LinkedServiceReference"
 					},
-					"name": "source8"
+					"name": "Original7"
 				},
 				{
 					"linkedService": {
 						"referenceName": "AzureSqlDatabase1",
 						"type": "LinkedServiceReference"
 					},
-					"name": "source9"
+					"name": "OriginalSQL"
 				}
 			],
 			"sinks": [
@@ -68,6 +68,13 @@
 						"type": "LinkedServiceReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"linkedService": {
+						"referenceName": "AzureSqlDatabase1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -131,6 +138,24 @@
 				},
 				{
 					"name": "select1"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "surrogateKey1"
+				},
+				{
+					"name": "rank1"
+				},
+				{
+					"name": "sort1"
+				},
+				{
+					"name": "assert1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -223,7 +248,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     inferDriftedColumnTypes: true,",
-				"     ignoreNoFilesFound: false) ~> source1",
+				"     ignoreNoFilesFound: false) ~> Original1",
 				"source(output(",
 				"          Id as string,",
 				"          MSSubClass as string,",
@@ -309,7 +334,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source2",
+				"     ignoreNoFilesFound: false) ~> Original2",
 				"source(output(",
 				"          Id as string,",
 				"          MSSubClass as string,",
@@ -395,7 +420,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source3",
+				"     ignoreNoFilesFound: false) ~> Original3",
 				"source(output(",
 				"          Id as string,",
 				"          MSSubClass as string,",
@@ -481,7 +506,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source4",
+				"     ignoreNoFilesFound: false) ~> Original4",
 				"source(output(",
 				"          Id as string,",
 				"          MSSubClass as string,",
@@ -567,7 +592,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source5",
+				"     ignoreNoFilesFound: false) ~> Original5",
 				"source(output(",
 				"          Id as string,",
 				"          MSSubClass as string,",
@@ -653,7 +678,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source6",
+				"     ignoreNoFilesFound: false) ~> Original6",
 				"source(output(",
 				"          Id as string,",
 				"          MSSubClass as string,",
@@ -743,16 +768,17 @@
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
 				"     tableName: 'pettable',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> source8",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> Original7",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
 				"     tableName: 'pettable',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> source9",
-				"source1 select(mapColumn(",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> OriginalSQL",
+				"Original1 select(mapColumn(",
 				"          Id,",
+				"          LotFrontage,",
 				"          MSSubClass,",
 				"          MSZoning,",
 				"          BldgType,",
@@ -761,9 +787,9 @@
 				"          YearBuilt,",
 				"          YearRemodAdd",
 				"     ),",
-				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: false) ~> BuildingTable",
-				"source2 select(mapColumn(",
+				"Original2 select(mapColumn(",
 				"          Id,",
 				"          LotFrontage,",
 				"          LandContour,",
@@ -776,13 +802,13 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> LandTable",
-				"source3 select(mapColumn(",
+				"Original3 select(mapColumn(",
 				"          Id,",
 				"          Street",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Street",
-				"source4 select(mapColumn(",
+				"Original4 select(mapColumn(",
 				"          Id,",
 				"          Utilities,",
 				"          Heating,",
@@ -807,7 +833,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Interior",
-				"source5 select(mapColumn(",
+				"Original5 select(mapColumn(",
 				"          Id,",
 				"          GarageType,",
 				"          GarageYrBlt,",
@@ -820,7 +846,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Garage",
-				"source6 select(mapColumn(",
+				"Original6 select(mapColumn(",
 				"          Id,",
 				"          RoofStyle,",
 				"          RoofMatl,",
@@ -843,7 +869,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Exterior",
-				"source8 select(mapColumn(",
+				"Original7 select(mapColumn(",
 				"          Id,",
 				"          MiscVal,",
 				"          MoSold,",
@@ -884,6 +910,7 @@
 				"     errors: true) ~> cast1",
 				"Yearbuilthigher1900 cast(output(",
 				"          Id as integer,",
+				"          LotFrontage as integer,",
 				"          MSSubClass as integer,",
 				"          MSZoning as string,",
 				"          BldgType as string,",
@@ -894,7 +921,7 @@
 				"     ),",
 				"     errors: true) ~> cast2",
 				"LandTable cast(output(",
-				"          Id as string,",
+				"          Id as integer,",
 				"          LotFrontage as integer,",
 				"          LandContour as string,",
 				"          LotShape as string,",
@@ -973,8 +1000,26 @@
 				"     disjoint: false) ~> split@(TyperoadaccesGrvl, TyperoadaccesPave, TyperoadaccesGrvl1)",
 				"cast2 derive(buildingtype = iif(YearBuilt>'1970','new','old')) ~> derivedColumn1",
 				"Exterior, Yearbuilthigher1900 union(byName: true)~> union1",
-				"source9 select(skipDuplicateMapInputs: true,",
+				"OriginalSQL select(skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
+				"derivedColumn1 aggregate(groupBy(Id,",
+				"          MSSubClass,",
+				"          MSZoning,",
+				"          BldgType,",
+				"          HouseStyle,",
+				"          OverallQual,",
+				"          YearBuilt,",
+				"          YearRemodAdd,",
+				"          buildingtype),",
+				"     AverageLotfrontageMssubclass = avg (LotFrontage) ) ~> aggregate1",
+				"aggregate1 keyGenerate(output(SurrogateKey as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
+				"surrogateKey1 rank(desc(MSSubClass, true),",
+				"     output(RankingMssubclass as long)) ~> rank1",
+				"rank1 sort(asc(Id, true)) ~> sort1",
+				"sort1 assert(expectUnique(Id, false, 'assert1')) ~> assert1",
+				"cast3 derive() ~> derivedColumn2",
 				"cast1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -991,11 +1036,45 @@
 				"     tableName: 'sales',",
 				"     insertable: true,",
 				"     updateable: false,",
+				"     deletable: true,",
+				"     upsertable: false,",
+				"     stagingSchemaName: 'dbo',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Id,",
+				"          MiscVal,",
+				"          MoSold,",
+				"          YrSold,",
+				"          SaleType,",
+				"          SaleCondition,",
+				"          SalePrice",
+				"     )) ~> sink1",
+				"cast6 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'Garage',",
+				"     insertable: true,",
+				"     updateable: false,",
 				"     deletable: false,",
 				"     upsertable: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Id,",
+				"          GarageType,",
+				"          GarageYrBlt,",
+				"          GarageFinish,",
+				"          GarageCars,",
+				"          GarageArea,",
+				"          GarageQual,",
+				"          GarageCond,",
+				"          PavedDrive",
+				"     )) ~> sink2"
 			]
 		}
 	}
