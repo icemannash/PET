@@ -51,14 +51,14 @@
 						"referenceName": "AzureSqlDatabase1",
 						"type": "LinkedServiceReference"
 					},
-					"name": "OriginalSQL"
+					"name": "source1"
 				},
 				{
 					"linkedService": {
 						"referenceName": "petserver26",
 						"type": "LinkedServiceReference"
 					},
-					"name": "source1"
+					"name": "source2"
 				}
 			],
 			"sinks": [
@@ -202,10 +202,22 @@
 					"name": "BuildingDimensiontable"
 				},
 				{
-					"name": "MeasureBuilding"
+					"name": "BuildingMeasure"
 				},
 				{
 					"name": "select3"
+				},
+				{
+					"name": "LandMeasure"
+				},
+				{
+					"name": "LandDimension"
+				},
+				{
+					"name": "InteriorDimension"
+				},
+				{
+					"name": "InteriorMeasure"
 				}
 			],
 			"scriptLines": [
@@ -727,19 +739,19 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> Original6",
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     validateSchema: true,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
-				"     tableName: 'pettable',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> OriginalSQL",
+				"     tableName: 'Garage',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: true,",
+				"     validateSchema: false,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
 				"     schemaName: '',",
 				"     tableName: '',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source2",
 				"Original1 select(mapColumn(",
 				"          Id,",
 				"          LotFrontage,",
@@ -962,7 +974,7 @@
 				"     errors: true) ~> cast7",
 				"cast2 derive(buildingtype = iif(YearBuilt>'1970','new','old')) ~> derivedColumn1",
 				"Exterior, Yearbuilthigher1900 union(byName: true)~> union1",
-				"OriginalSQL select(skipDuplicateMapInputs: true,",
+				"source2 select(skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"derivedColumn1 aggregate(groupBy(Id,",
 				"          MSSubClass,",
@@ -984,9 +996,9 @@
 				"cast3 select(mapColumn(",
 				"          Id,",
 				"          LotFrontage,",
+				"          LotArea,",
 				"          LandContour,",
 				"          LotShape,",
-				"          LotArea,",
 				"          LotConfig,",
 				"          LandSlope,",
 				"          Condition1",
@@ -994,6 +1006,8 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
 				"select2 aggregate(groupBy(Id,",
+				"          LotFrontage,",
+				"          LotArea,",
 				"          LandContour,",
 				"          LotShape,",
 				"          LotConfig,",
@@ -1055,8 +1069,29 @@
 				"          YearRemodAdd",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> MeasureBuilding",
+				"     skipDuplicateMapOutputs: true) ~> BuildingMeasure",
 				"assert2 select(mapColumn(",
+				"          Id,",
+				"          {Surrogate Key},",
+				"          LotArea,",
+				"          {Average(Lot frontage)},",
+				"          LandContour,",
+				"          LotShape,",
+				"          LotConfig,",
+				"          LandSlope,",
+				"          Condition1",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3",
+				"select3 select(mapColumn(",
+				"          Id,",
+				"          {Surrogate Key},",
+				"          LotArea,",
+				"          {Average(Lot frontage)}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> LandMeasure",
+				"select3 select(mapColumn(",
 				"          Id,",
 				"          {Surrogate Key},",
 				"          LandContour,",
@@ -1067,7 +1102,39 @@
 				"          {Average(Lot frontage)}",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select3",
+				"     skipDuplicateMapOutputs: true) ~> LandDimension",
+				"assert4 select(mapColumn(",
+				"          Id,",
+				"          {Surrogate Key},",
+				"          Utilities,",
+				"          Heating,",
+				"          HeatingQC,",
+				"          CentralAir,",
+				"          Electrical,",
+				"          KitchenQual,",
+				"          Functional,",
+				"          FireplaceQu",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> InteriorDimension",
+				"assert4 select(mapColumn(",
+				"          Id,",
+				"          {1stFlrSF},",
+				"          {2ndFlrSF},",
+				"          LowQualFinSF,",
+				"          GrLivArea,",
+				"          BsmtFullBath,",
+				"          BsmtHalfBath,",
+				"          FullBath,",
+				"          HalfBath,",
+				"          BedroomAbvGr,",
+				"          KitchenAbvGr,",
+				"          TotRmsAbvGrd,",
+				"          Fireplaces,",
+				"          {Surrogate Key}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> InteriorMeasure",
 				"cast1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
