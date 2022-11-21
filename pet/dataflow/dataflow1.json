@@ -128,9 +128,6 @@
 					"name": "cast7"
 				},
 				{
-					"name": "split"
-				},
-				{
 					"name": "derivedColumn1"
 				},
 				{
@@ -168,6 +165,9 @@
 				},
 				{
 					"name": "assert2"
+				},
+				{
+					"name": "surrogateKey3"
 				}
 			],
 			"scriptLines": [
@@ -816,7 +816,8 @@
 				"     skipDuplicateMapOutputs: true) ~> LandTable",
 				"Original3 select(mapColumn(",
 				"          Id,",
-				"          Street",
+				"          Street,",
+				"          Alley",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Street",
@@ -946,9 +947,10 @@
 				"     errors: true) ~> cast3",
 				"Street cast(output(",
 				"          Id as integer,",
-				"          Street as string",
+				"          Street as string,",
+				"          Alley as string",
 				"     ),",
-				"     errors: true) ~> cast4",
+				"     errors: false) ~> cast4",
 				"Interior cast(output(",
 				"          Id as integer,",
 				"          Utilities as string,",
@@ -1006,10 +1008,6 @@
 				"          Fence as string",
 				"     ),",
 				"     errors: true) ~> cast7",
-				"cast4 split(equals(Street, 'Grvl'),",
-				"     equals(Street, 'Pave'),",
-				"     equals(Street, 'Grvl'),",
-				"     disjoint: false) ~> split@(TyperoadaccesGrvl, TyperoadaccesPave, TyperoadaccesGrvl1)",
 				"cast2 derive(buildingtype = iif(YearBuilt>'1970','new','old')) ~> derivedColumn1",
 				"Exterior, Yearbuilthigher1900 union(byName: true)~> union1",
 				"OriginalSQL select(skipDuplicateMapInputs: true,",
@@ -1055,6 +1053,9 @@
 				"     stepValue: 1L) ~> surrogateKey2",
 				"surrogateKey2 sort(asc(Id, true)) ~> sort2",
 				"sort2 assert(expectUnique(Id, false, 'assert1')) ~> assert2",
+				"cast4 keyGenerate(output(SurrogateKey as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey3",
 				"cast1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
