@@ -155,7 +155,19 @@
 					"name": "assert1"
 				},
 				{
-					"name": "derivedColumn2"
+					"name": "select2"
+				},
+				{
+					"name": "aggregate2"
+				},
+				{
+					"name": "surrogateKey2"
+				},
+				{
+					"name": "sort2"
+				},
+				{
+					"name": "assert2"
 				}
 			],
 			"scriptLines": [
@@ -333,7 +345,7 @@
 				"          SalePrice as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     validateSchema: true,",
 				"     ignoreNoFilesFound: false) ~> Original2",
 				"source(output(",
 				"          Id as string,",
@@ -1019,7 +1031,30 @@
 				"     output(RankingMssubclass as long)) ~> rank1",
 				"rank1 sort(asc(Id, true)) ~> sort1",
 				"sort1 assert(expectUnique(Id, false, 'assert1')) ~> assert1",
-				"cast3 derive() ~> derivedColumn2",
+				"cast3 select(mapColumn(",
+				"          Id,",
+				"          LotFrontage,",
+				"          LandContour,",
+				"          LotShape,",
+				"          LotArea,",
+				"          LotConfig,",
+				"          LandSlope,",
+				"          Condition1",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"select2 aggregate(groupBy(Id,",
+				"          LandContour,",
+				"          LotShape,",
+				"          LotConfig,",
+				"          LandSlope,",
+				"          Condition1),",
+				"     {Average(Lot frontage)} = avg(LotFrontage)) ~> aggregate2",
+				"aggregate2 keyGenerate(output({Surrogate Key} as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey2",
+				"surrogateKey2 sort(asc(Id, true)) ~> sort2",
+				"sort2 assert(expectUnique(Id, false, 'assert1')) ~> assert2",
 				"cast1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
