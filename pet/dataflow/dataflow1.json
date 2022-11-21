@@ -68,13 +68,6 @@
 						"type": "LinkedServiceReference"
 					},
 					"name": "sink1"
-				},
-				{
-					"linkedService": {
-						"referenceName": "AzureSqlDatabase1",
-						"type": "LinkedServiceReference"
-					},
-					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -168,6 +161,42 @@
 				},
 				{
 					"name": "surrogateKey3"
+				},
+				{
+					"name": "sort3"
+				},
+				{
+					"name": "assert3"
+				},
+				{
+					"name": "surrogateKey4"
+				},
+				{
+					"name": "sort4"
+				},
+				{
+					"name": "assert4"
+				},
+				{
+					"name": "aggregate3"
+				},
+				{
+					"name": "surrogateKey5"
+				},
+				{
+					"name": "sort5"
+				},
+				{
+					"name": "assert5"
+				},
+				{
+					"name": "surrogateKey6"
+				},
+				{
+					"name": "sort6"
+				},
+				{
+					"name": "assert6"
 				}
 			],
 			"scriptLines": [
@@ -1056,6 +1085,32 @@
 				"cast4 keyGenerate(output(SurrogateKey as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey3",
+				"surrogateKey3 sort(asc(SurrogateKey, true)) ~> sort3",
+				"sort3 assert(expectUnique(SurrogateKey, false, 'assert1')) ~> assert3",
+				"cast5 keyGenerate(output({Surrogate Key} as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey4",
+				"surrogateKey4 sort(asc({Surrogate Key}, true)) ~> sort4",
+				"sort4 assert(expectUnique(Id, false, 'assert1')) ~> assert4",
+				"cast6 aggregate(groupBy(Id,",
+				"          GarageType,",
+				"          GarageYrBlt,",
+				"          GarageFinish,",
+				"          GarageCars,",
+				"          GarageQual,",
+				"          GarageCond,",
+				"          PavedDrive),",
+				"     {Average GarageArea} = avg(GarageArea)) ~> aggregate3",
+				"aggregate3 keyGenerate(output(SurrogateKey as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey5",
+				"surrogateKey5 sort(asc(SurrogateKey, true)) ~> sort5",
+				"sort5 assert(expectUnique(Id, false, 'assert1')) ~> assert5",
+				"cast7 keyGenerate(output(SurrogateKey as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey6",
+				"surrogateKey6 sort(asc(SurrogateKey, true)) ~> sort6",
+				"sort6 assert(expectUnique(Id, false, 'assert1')) ~> assert6",
 				"cast1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -1086,31 +1141,7 @@
 				"          SaleType,",
 				"          SaleCondition,",
 				"          SalePrice",
-				"     )) ~> sink1",
-				"cast6 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     format: 'table',",
-				"     store: 'sqlserver',",
-				"     schemaName: 'dbo',",
-				"     tableName: 'Garage',",
-				"     insertable: true,",
-				"     updateable: false,",
-				"     deletable: false,",
-				"     upsertable: false,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          Id,",
-				"          GarageType,",
-				"          GarageYrBlt,",
-				"          GarageFinish,",
-				"          GarageCars,",
-				"          GarageArea,",
-				"          GarageQual,",
-				"          GarageCond,",
-				"          PavedDrive",
-				"     )) ~> sink2"
+				"     )) ~> sink1"
 			]
 		}
 	}
