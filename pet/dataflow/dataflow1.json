@@ -218,6 +218,12 @@
 				},
 				{
 					"name": "InteriorMeasure"
+				},
+				{
+					"name": "GarageMeasure"
+				},
+				{
+					"name": "GarageDimension"
 				}
 			],
 			"scriptLines": [
@@ -1119,6 +1125,7 @@
 				"     skipDuplicateMapOutputs: true) ~> InteriorDimension",
 				"assert4 select(mapColumn(",
 				"          Id,",
+				"          {Surrogate Key},",
 				"          {1stFlrSF},",
 				"          {2ndFlrSF},",
 				"          LowQualFinSF,",
@@ -1130,11 +1137,29 @@
 				"          BedroomAbvGr,",
 				"          KitchenAbvGr,",
 				"          TotRmsAbvGrd,",
-				"          Fireplaces,",
-				"          {Surrogate Key}",
+				"          Fireplaces",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> InteriorMeasure",
+				"assert5 select(mapColumn(",
+				"          Id,",
+				"          SurrogateKey,",
+				"          GarageYrBlt,",
+				"          GarageCars",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> GarageMeasure",
+				"assert5 select(mapColumn(",
+				"          Id,",
+				"          SurrogateKey,",
+				"          GarageType,",
+				"          GarageFinish,",
+				"          GarageQual,",
+				"          GarageCond,",
+				"          PavedDrive",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> GarageDimension",
 				"cast1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
