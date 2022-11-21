@@ -51,14 +51,14 @@
 						"referenceName": "AzureSqlDatabase1",
 						"type": "LinkedServiceReference"
 					},
-					"name": "Original7"
+					"name": "OriginalSQL"
 				},
 				{
 					"linkedService": {
-						"referenceName": "AzureSqlDatabase1",
+						"referenceName": "AzureSqlDatabase2",
 						"type": "LinkedServiceReference"
 					},
-					"name": "OriginalSQL"
+					"name": "source1"
 				}
 			],
 			"sinks": [
@@ -197,12 +197,15 @@
 				},
 				{
 					"name": "assert6"
+				},
+				{
+					"name": "BuildingDimensiontable"
+				},
+				{
+					"name": "MeasureBuilding"
 				}
 			],
 			"scriptLines": [
-				"parameters{",
-				"     parameter1 as string",
-				"}",
 				"source(output(",
 				"          Id as string,",
 				"          MSSubClass as string,",
@@ -726,14 +729,14 @@
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
 				"     tableName: 'pettable',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> Original7",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> OriginalSQL",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
-				"     schemaName: 'dbo',",
-				"     tableName: 'pettable',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> OriginalSQL",
+				"     schemaName: '',",
+				"     tableName: '',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
 				"Original1 select(mapColumn(",
 				"          Id,",
 				"          LotFrontage,",
@@ -828,7 +831,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Exterior",
-				"Original7 select(mapColumn(",
+				"source1 select(mapColumn(",
 				"          Id,",
 				"          MiscVal,",
 				"          MoSold,",
@@ -1028,6 +1031,28 @@
 				"     stepValue: 1L) ~> surrogateKey6",
 				"surrogateKey6 sort(asc(SurrogateKey, true)) ~> sort6",
 				"sort6 assert(expectUnique(Id, false, 'assert1')) ~> assert6",
+				"assert1 select(mapColumn(",
+				"          Id,",
+				"          SurrogateKey,",
+				"          MSSubClass,",
+				"          MSZoning,",
+				"          BldgType,",
+				"          HouseStyle,",
+				"          OverallQual,",
+				"          buildingtype,",
+				"          AverageLotfrontageMssubclass,",
+				"          RankingMssubclass",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> BuildingDimensiontable",
+				"assert1 select(mapColumn(",
+				"          Id,",
+				"          SurrogateKey,",
+				"          YearBuilt,",
+				"          YearRemodAdd",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> MeasureBuilding",
 				"cast1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -1049,6 +1074,7 @@
 				"     stagingSchemaName: 'dbo',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          Id,",
