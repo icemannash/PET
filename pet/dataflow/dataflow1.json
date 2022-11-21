@@ -124,9 +124,6 @@
 					"name": "derivedColumn1"
 				},
 				{
-					"name": "union1"
-				},
-				{
 					"name": "select1"
 				},
 				{
@@ -196,9 +193,6 @@
 					"name": "sort6"
 				},
 				{
-					"name": "assert6"
-				},
-				{
 					"name": "BuildingDimensiontable"
 				},
 				{
@@ -224,6 +218,12 @@
 				},
 				{
 					"name": "GarageDimension"
+				},
+				{
+					"name": "ExteriorDimension"
+				},
+				{
+					"name": "ExteriorMeasure"
 				}
 			],
 			"scriptLines": [
@@ -979,7 +979,6 @@
 				"     ),",
 				"     errors: true) ~> cast7",
 				"cast2 derive(buildingtype = iif(YearBuilt>'1970','new','old')) ~> derivedColumn1",
-				"Exterior, Yearbuilthigher1900 union(byName: true)~> union1",
 				"source2 select(skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"derivedColumn1 aggregate(groupBy(Id,",
@@ -1053,7 +1052,6 @@
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey6",
 				"surrogateKey6 sort(asc(SurrogateKey, true)) ~> sort6",
-				"sort6 assert(expectUnique(Id, false, 'assert1')) ~> assert6",
 				"assert1 select(mapColumn(",
 				"          Id,",
 				"          SurrogateKey,",
@@ -1160,6 +1158,35 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> GarageDimension",
+				"sort6 select(mapColumn(",
+				"          Id,",
+				"          SurrogateKey,",
+				"          RoofStyle,",
+				"          RoofMatl,",
+				"          Exterior1st,",
+				"          Exterior2nd,",
+				"          MasVnrType,",
+				"          ExterQual,",
+				"          ExterCond,",
+				"          Foundation,",
+				"          PoolQC,",
+				"          Fence",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ExteriorDimension",
+				"sort6 select(mapColumn(",
+				"          Id,",
+				"          SurrogateKey,",
+				"          MasVnrArea,",
+				"          WoodDeckSF,",
+				"          OpenPorchSF,",
+				"          EnclosedPorch,",
+				"          {3SsnPorch},",
+				"          ScreenPorch,",
+				"          PoolArea",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> ExteriorMeasure",
 				"cast1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
